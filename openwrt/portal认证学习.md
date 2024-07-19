@@ -23,7 +23,7 @@
 ![](img/%E4%BC%81%E4%B8%9A%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_17199073364143.png)
 
 
-## Portal认证页面弹出原理:
+## Portal认证页面弹出原理(`一般在内核拦截重定向，https不行，需要重定向到用户态进行SSL握手`):
 - Portal重定向有两种方式：`HTTP 200 OK`和`HTTP 302 Moved`方式。
     - HTTP 200 OK方式:
         - TCP建立完成后，`终端发出HTTP GET`报文，`设备拦截后回应HTTP 200 OK`报文。其中HTTP 200 OK报文`携带了Portal认证页面的地址`，终端收到此报文后就会访问Portal认证页面。
