@@ -1,0 +1,29 @@
+#!/bin/sh
+
+file_name="$0"
+temp=${file_name%_func*}	#cut string
+func=${temp##*/}
+
+get_str="get"
+set_str="set"
+
+if [ $1 ] && [ $2 ]
+then
+	if [ x"$1" == x"$set_str" ]
+	then
+		product set $func $2
+		str=`product get $func`
+		if [ x"$str" == x"$2" ]
+		then
+			echo ok
+			exit 0
+		fi
+	fi
+fi
+
+if [ x"$1" == x"$get_str" ]
+then
+	echo `product get $func`
+	exit 0
+fi
+echo fail

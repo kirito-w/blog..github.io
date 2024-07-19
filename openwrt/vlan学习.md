@@ -1,0 +1,2 @@
+- https://openwrt.org/docs/guide-user/network/vlan/switch_configuration
+- https://medium.com/openwrt-iot/openwrt-configure-a-vlan-900fa64600e5

@@ -1,0 +1,3 @@
+- https://www.zido.site/blog/2021-09-26-overlayfs-filesystem/
+- https://docs.kernel.org/filesystems/overlayfs.html
+- https://wiki.archlinux.org/title/Overlay_filesystem

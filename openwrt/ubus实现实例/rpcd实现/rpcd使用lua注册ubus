@@ -1,0 +1,142 @@
+#!/usr/bin/env lua
+
+local json 		= require "luci.jsonc"
+local ubus      = require "ubus"
+
+local stainfo_path = "/sys/kernel/debug/wlinfo/stainfo"
+
+local function split(str, reps)
+	local r = {}
+	if str == nil then return r end
+	_ = string.gsub(str, "[^"..reps.."]+", function(w) table.insert(r, w) end)
+	return r
+end
+
+local function execute(cmd)
+    local r, err = io.popen(cmd)
+    if not r then
+        return nil, err
+    end
+
+    local data = r:read("*all")
+    r:close()
+
+    return data
+end
+
+-- 解析一行的无线用户信息
+---@param line string
+---@return table
+local function parse_wlinfo_sta_info(line)
+    -- this tx and rx is relative to ap
+    -- sta rx rate is equal to ap tx rate
+    -- sta tx rate is equal to ap rx rate
+    local line_arr = split(line, ";")
+    local sta_mac, bssid, apname, uptime, timeout, rssi, tx_rate, rx_rate, inact_time, rssi_update_time
+
+    sta_mac, bssid, apname, uptime, timeout, rssi, tx_rate, rx_rate =
+    line_arr[1],line_arr[2],line_arr[3],line_arr[4],line_arr[5],line_arr[6],line_arr[7],line_arr[8]
+
+    local uptime_arr = split(uptime, ":") or {}
+    local uptime_hour, uptime_min, uptime_sec = tonumber(uptime_arr[1] or 0, 10) or 0, tonumber(uptime_arr[2] or 0, 10) or 0, tonumber(uptime_arr[3] or 0, 10) or 0
+    local sta_uptime = uptime_hour * 3600 + uptime_min * 60 + uptime_sec
+    local first_uptime = os.date("%Y-%m-%d %H:%M:%S", os.time() - sta_uptime)
+
+    return {
+        sta_mac = sta_mac,
+        bssid = bssid,
+        -- apname = apname,
+        -- uptime = sta_uptime,
+        -- first_uptime = first_uptime,
+        -- timeout = tonumber(timeout, 10),
+        rssi = rssi,
+        tx_rate = tonumber(rx_rate, 10),
+        rx_rate = tonumber(tx_rate, 10),
+        -- inact_time = tonumber(inact_time, 10),
+        -- rssi_update_time = tonumber(rssi_update_time, 10),
+    }
+end
+
+local methods = {
+	get_sta_list = {
+		call = function()
+            -- ubus接口实现
+			local sta_info = {}
+		
+			local user_devices, e = execute(string.format("cat %s", stainfo_path))
+			if not user_devices then
+				return { error = "No found stainfo" }
+			end
+		
+			for line in (user_devices:gmatch("(.-)\n")) do
+				local sta = parse_wlinfo_sta_info(line)
+				table.insert(sta_info, sta)
+			end
+		
+			return {res = sta_info}
+		end
+	}
+}
+
+local function parseInput()
+	local parse = json.new()
+	local done, err
+
+	while true do
+		local chunk = io.read(4096)
+		if not chunk then
+			break
+		elseif not done and not err then
+			done, err = parse:parse(chunk)
+		end
+	end
+
+	if not done then
+		print(json.stringify({ error = err or "Incomplete input" }))
+		os.exit(1)
+	end
+
+	return parse:get()
+end
+
+local function validateArgs(func, uargs)
+	local method = methods[func]
+	if not method then
+		print(json.stringify({ error = "Method not found" }))
+		os.exit(1)
+	end
+
+	if type(uargs) ~= "table" then
+		print(json.stringify({ error = "Invalid arguments" }))
+		os.exit(1)
+	end
+
+	uargs.ubus_rpc_session = nil
+
+	local k, v
+	local margs = method.args or {}
+	for k, v in pairs(uargs) do
+		if margs[k] == nil or
+		   (v ~= nil and type(v) ~= type(margs[k]))
+		then
+			print(json.stringify({ error = "Invalid arguments" }))
+			os.exit(1)
+		end
+	end
+
+	return method
+end
+
+if arg[1] == "list" then
+	local _, method, rv = nil, nil, {}
+	for _, method in pairs(methods) do rv[_] = method.args or {} end
+	print((json.stringify(rv):gsub(":%[%]", ":{}")))
+elseif arg[1] == "call" then
+	local args = parseInput()
+	local method = validateArgs(arg[2], args)
+	local result, code = method.call(args)
+	print((json.stringify(result):gsub("^%[%]$", "{}")))
+	os.exit(code or 0)
+end
+
+-- 需将文件放入/usr/libexec/rpcd下，加可执行权限

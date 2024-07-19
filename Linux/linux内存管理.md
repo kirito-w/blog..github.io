@@ -1,0 +1,1 @@
+- https://www.xiaolincoding.com/os/3_memory/vmem.html#linux-%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80

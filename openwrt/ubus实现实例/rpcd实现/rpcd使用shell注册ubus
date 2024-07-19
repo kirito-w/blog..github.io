@@ -1,0 +1,48 @@
+#!/bin/sh
+. /usr/lib/onion/lib.sh  
+    #includes the functions that we need to parse JSON files
+
+case "$1" in
+    #The list function describes how to use the ubus functions.
+        list)
+                echo '{ "addition": { "argument1": "value" , "argument2":"value"}, "subtraction": { "argument1": "value", "argument2":"value"} }'
+        ;;
+    #The call function describes the methods that are available
+        call)
+                case "$2" in
+                        # The addition method
+                        addition)
+                                # read the argument
+                                read input
+                                # Load the argument into the json for retrieval
+                                json_load "$input"
+                                #Using the function below, the value of
+                                #"argument1" is stored in variable val1
+                                json_get_var val1 "argument1"
+                                json_get_var val2 "argument2"
+                                #The sum of the two are computed
+                                ans=$(($val1+$val2))
+                                #The \ is used so that we can substitute
+                                #properly
+                                echo "{ \"The ans is\" :\"$ans\"}"
+                        ;;
+                        subtraction)
+                                # read the argument
+                                read input
+                                # Load the argument into the json for
+                                json_load "$input"
+                                #Using the function below, the value of
+                                #"argument1" is stored in variable val1
+                                json_get_var val1 "argument1"
+                                json_get_var val2 "argument2"
+                                #The difference of the two are computed
+                                ans=$(($val1-$val2))
+                                #The \ is used so that we can substitute
+                                #properly
+                                echo "{ \"The ans is\" :\"$ans\"}"
+                        ;;
+                esac
+        ;;
+esac
+
+#需将文件放入/usr/libexec/rpcd下，加可执行权限
