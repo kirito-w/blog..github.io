@@ -1,5 +1,7 @@
 - Linux 将用户账号、密码等相关的信息分别存储在四个文件夹下：
     - /etc/passwd —— 管理用户UID/GID重要参数
+      - 示例：sam:x:200:50:Sam san:/home/sam:/bin/sh
+      - 用户名:口令:用户标识号:组标识号:注释性描述:主目录:登录Shell
     - /etc/shadow —— 管理用户密码
     - /etc/group —— 管理用户组相关信息
 
