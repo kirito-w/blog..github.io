@@ -1,0 +1,32 @@
+【问题描述】
+1、AP设备，默认桥模式情况下，防火墙规则存在多余的
+
+【问题原因】
+1、瘦AP产品，防火墙WAN的INPUT默认是ACCEPT，也不会被配置为REJECT，所以其他的额外放通某些协议的规则，可以不存在
+2、瘦AP产品，工作在桥模式，不需要igmpproxy功能
+
+【解决方案】
+1、加入网络模式判断，桥模式，不需要额外放通某些协议的规则
+2、去掉igmpproxy
+
+【提交记录】
+commit 174355df9e60b7a81290291aaadafe0b108c93e4
+Author: Nicholas <lk@tt-cool.com>
+Date:   Fri Apr 19 17:56:14 2024 +0800
+
+    bug56174: AP设备，去掉igmpproxy，桥模式设备，不需要这个东西
+
+commit f0ce65b7ebddadf4a71d9b69a98e6e53892d370f
+Author: Nicholas <lk@tt-cool.com>
+Date:   Fri Apr 19 14:14:30 2024 +0800
+
+    bug56174: AP设备，默认工作在桥模式，有些规则，不用生效
+
+
+【测试建议】
+1、确认 /etc/config/firewall文件中，默认不存在 config rule 节点规则
+2、确认AP模式时，不存在igmpproxy模块，并且iptables-save | grep  "igmp \| ttl" 查不到相关规则（组播代理生效相关）
+
+
+
+
