@@ -2,6 +2,13 @@
 - Dynamic debug允许内核开发者`动态使用或者关闭内核输出`。
 - 可用于内核代码调试
 
+```
+mt7981 puppies config 开启参考
+CONFIG_KERNEL_DEBUG_KERNEL=y
+CONFIG_KERNEL_DEBUG_INFO=y
+CONFIG_KERNEL_DYNAMIC_DEBUG=y
+```
+
 ## 添加调用栈和pr_debug示例：
 ```
 diff -Naur a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
