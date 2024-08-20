@@ -7,6 +7,7 @@
 - https://blog.csdn.net/agave7/article/details/121029806
 
 
+# 普通软件包补丁：
 ## 通过quilt指令（`更安全，推荐`）：
 预处理：`make package/feeds/packages/netopeer2/{clean,prepare} V=s QUILT=1`
 
@@ -25,10 +26,11 @@
 - 3.diff -uNr dir_old dir_new  > package/xxxxx/patches/001-app-dd-mark.patch` 可以对比整个目录差异
 - 4.重新编译
 
-## 内核文件补丁：
-### https://www.openwrt.pro/post-95.html
-### https://blog.csdn.net/wind0419/article/details/82996738
-#### 预处理：
+================================================================
+# 内核文件补丁：
+## https://www.openwrt.pro/post-95.html
+## https://blog.csdn.net/wind0419/article/details/82996738
+## 预处理：
 - 1、make target/linux/clean —— 清除编译
 - 2、` make target/linux/prepare V=s QUILT=1` —— 准备全新的源码
 - 3.切换到kernel目录 —— cd build_dir/target-mipsel_24kec+dsp_uClibc-0.9.33.2/linux-ramips_mt7688/linux-3.18.44
@@ -41,4 +43,6 @@
 - 10.回到根目录：`make target/linux/update package/index V=s`
 - 11.如果10没有成功将patch放到target/linux/xxxx/patches-4.4/下，可以手动修改patch中的from和to 为a和b，并且删除index，然后手动移动到patches-4.4/下，重新清空编译内核即可
 
-### 实例见9999-705-hnat-ipv6-debug.patch
+## 实例见9999-705-hnat-ipv6-debug.patch
+
+================================================================

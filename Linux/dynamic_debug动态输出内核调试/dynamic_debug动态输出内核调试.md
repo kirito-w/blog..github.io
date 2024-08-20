@@ -99,7 +99,7 @@ diff -Naur a/mm/util.c b/mm/util.c
 ```
 
 ## 开启输出
-- 
+- echo -n "file xxx.c +p" > /sys/kernel/debug/dynamic_debug/control
 
 ## 相关文档：
 https://www.cnblogs.com/qiynet/p/17650530.html
