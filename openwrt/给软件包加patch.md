@@ -1,3 +1,5 @@
+# 最简单的方式 ———— `在对应仓库修改完后，先用git提交到本地，然后用git show > xxxx.patch，最后放到对应目录`
+
 - openwrt官方使用patch的说明：https://oldwiki.archive.openwrt.org/doc/devel/patches?s[]=quilt
 
 - https://www.cnblogs.com/adam-ma/p/17712940.html
