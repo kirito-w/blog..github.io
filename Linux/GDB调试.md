@@ -27,4 +27,5 @@ https://blog.csdn.net/Luckiers/article/details/124568399
     - bt
 
 ## openwrt全局开启-g选项：
-https://blog.csdn.net/ypbsyy/article/details/80585000
+- 1、openwrt上也可以直接开启kallsyms选项，效果是一样的，都是导出符号表
+- 2、https://blog.csdn.net/ypbsyy/article/details/80585000

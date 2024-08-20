@@ -10,6 +10,8 @@ CONFIG_KERNEL_DYNAMIC_DEBUG=y
 ```
 
 ## 添加调用栈和pr_debug示例：
+- 前提：需要在config选项中将CONFIG_KERNEL_DYNAMIC_DEBUG开启，即添加宏DYNAMIC_DEBUG
+
 ```
 diff -Naur a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
 --- a/include/linux/dynamic_debug.h	2024-01-04 07:44:32.000000000 +0000
@@ -45,11 +47,9 @@ diff -Naur a/include/linux/printk.h b/include/linux/printk.h
  #elif defined(DEBUG)
  #define pr_debug(fmt, ...) \
  	printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-+#define pr_debug_stack(fmt, ...) 	
  #else
  #define pr_debug(fmt, ...) \
  	no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-+	pr_debug_stack(fmt, ...) 
  #endif
  
  /*
@@ -97,6 +97,9 @@ diff -Naur a/mm/util.c b/mm/util.c
  	 * so the given set of flags has to be compatible.
 
 ```
+
+## 开启输出
+- 
 
 ## 相关文档：
 https://www.cnblogs.com/qiynet/p/17650530.html

@@ -1,0 +1,79 @@
+--- a/drivers/net/ethernet/mediatek/mtk_hnat/hnat_nf_hook.c
++++ b/drivers/net/ethernet/mediatek/mtk_hnat/hnat_nf_hook.c
+@@ -13,6 +13,8 @@
+ 
+ #include <linux/netfilter_bridge.h>
+ #include <linux/netfilter_ipv6.h>
++#include <linux/kernel.h>
++#include <linux/dynamic_debug.h>
+ 
+ #include <net/arp.h>
+ #include <net/neighbour.h>
+@@ -1233,6 +1235,10 @@ static unsigned int skb_to_hnat_info(str
+ 	entry.bfib1.sp = foe->udib1.sp;
+ #endif
+ 
++	if(ETH_P_IPV6 == ntohs(eth->h_proto)) {
++		pr_debug_stack("%s: [%d].\n",__func__,__LINE__);
++	}
++
+ 	switch (ntohs(eth->h_proto)) {
+ 	case ETH_P_IP:
+ 		iph = ip_hdr(skb);
+@@ -2684,3 +2690,4 @@ int mtk_hqos_ptype_cb(struct sk_buff *sk
+ 	return 0;
+ }
+ 
++
+===================================================================
+--- a/include/linux/dynamic_debug.h
++++ b/include/linux/dynamic_debug.h
+@@ -54,6 +54,7 @@ int ddebug_add_module(struct _ddebug *ta
+ extern int ddebug_remove_module(const char *mod_name);
+ extern __printf(2, 3)
+ void __dynamic_pr_debug(struct _ddebug *descriptor, const char *fmt, ...);
++void __dynamic_pr_debug_stack(struct _ddebug *descriptor, const char *fmt, ...);
+ 
+ extern int ddebug_dyndbg_module_param_cb(char *param, char *val,
+ 					const char *modname);
+@@ -153,6 +154,10 @@ void __dynamic_ibdev_dbg(struct _ddebug
+ 	_dynamic_func_call(fmt,	__dynamic_pr_debug,		\
+ 			   pr_fmt(fmt), ##__VA_ARGS__)
+ 
++#define dynamic_pr_debug_stack(fmt, ...)				\
++	_dynamic_func_call(fmt,	__dynamic_pr_debug_stack,		\
++			   pr_fmt(fmt), ##__VA_ARGS__)
++
+ #define dynamic_dev_dbg(dev, fmt, ...)				\
+ 	_dynamic_func_call(fmt,__dynamic_dev_dbg, 		\
+ 			   dev, fmt, ##__VA_ARGS__)
+
+===================================================================
+--- a/include/linux/printk.h
++++ b/include/linux/printk.h
+@@ -329,6 +329,8 @@ extern int kptr_restrict;
+ /* dynamic_pr_debug() uses pr_fmt() internally so we don't need it here */
+ #define pr_debug(fmt, ...) \
+ 	dynamic_pr_debug(fmt, ##__VA_ARGS__)
++#define pr_debug_stack(fmt, ...) \
++	dynamic_pr_debug_stack(fmt, ##__VA_ARGS__)	
+ #elif defined(DEBUG)
+ #define pr_debug(fmt, ...) \
+ 	printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+
+===================================================================
+--- a/lib/dynamic_debug.c
++++ b/lib/dynamic_debug.c
+@@ -572,6 +572,12 @@ void __dynamic_pr_debug(struct _ddebug *
+ }
+ EXPORT_SYMBOL(__dynamic_pr_debug);
+ 
++void __dynamic_pr_debug_stack(struct _ddebug *descriptor, const char *fmt, ...)
++{
++	dump_stack();
++}
++EXPORT_SYMBOL(__dynamic_pr_debug_stack);
++
+ void __dynamic_dev_dbg(struct _ddebug *descriptor,
+ 		      const struct device *dev, const char *fmt, ...)
+ {
