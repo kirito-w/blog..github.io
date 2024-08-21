@@ -38,6 +38,18 @@
 - 从Portal重定向原理可知，终端访问HTTPS网页时，`设备拦截HTTPS（默认443端口）TCP固定端口的流量`，`仿冒`成终端`要访问的目的地址`和终端`建立TCP连接`，TCP建链完成后`进行SSL握手`，SSL握手`使用的是设备内置的自签名证书`，设备内置自签名证书并`不是合法机构颁发的证书`，因此**`能否重定向成功取决于终端浏览器的安全策略`**，部分终端浏览器校验服务器证书时会产生告警，点击信任继续后，可以正常重定向到Portal页面。也有部分浏览器没有该提示页面，直接中断访问。
 
 
+## iphone手机连接wifi后，不会立即自动弹出认证页面的原因及解决方案 —— 对IOS自身探测重定向（captive.apple.com验证连通性）：
+- 可能性1：iOS终端设备CNA探测失败可能导致iOS终端的`WiFi信号无法点亮`。
+    - 解决方案：可以通过重定向配置，将`第一次`探测请求captive.apple.com`重定向到Portal认证页面`，后续的探测请求`伪造回应Success`，即可解决。
+- 可能性2：iOS在认证过程中，`首先需要去captive.apple.com验证连通性`，正常情况下，连通性验证通过才可以触发Portal重定向推送认证页面。如果使用的DNS服务器解析域名的延迟时间非常长，对Portal认证页面的弹出速度也会有影响。
+    - 解决方案：可以使用IP地址为`114.114.114.114`的DNS服务器来解析captive.apple.com。
+- https://bbs.sundray.com.cn/forum.php?mod=viewthread&tid=1030
+- https://blog.csdn.net/Illina/article/details/77650586
+- https://support.huawei.com/enterprise/zh/doc/EDOC1100247698/c61ffc0a
+- https://bbs.sangfor.com.cn/forum.php?mod=viewthread&tid=132985
+- https://blog.csdn.net/sinat_20184565/article/details/80308010
+- https://zhiliao.h3c.com/questions/dispcont/2338
+
 # 相关文档
 - https://support.huawei.com/enterprise/zh/doc/EDOC1000079675/4476c6b8
 - https://support.huawei.com/enterprise/zh/doc/EDOC1000079675/3371f62e#ZH-CN_TOPIC_0000001174793344
