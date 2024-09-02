@@ -1,0 +1,2 @@
+- https://openwrt.org/docs/guide-user/base-system/dhcp
+- 可以在/etc/hosts中添加域名和对应ip的条目，然后重启dnsmasq进程即可

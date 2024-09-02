@@ -1,4 +1,5 @@
 # 四表五链
+- https://blog.csdn.net/weixin_44736359/article/details/107065327
 ## 四表
 - 1.filter 表:控制数据包是否允许`进出及转发`，可以控制的链路有 `INPUT、FORWARD 和 OUTPUT`。
 - 2.nat 表:控制数据包中`地址转换`，可以控制的链路有 `PREROUTING、INPUT、OUTPUT和 POSTROUTING`。
