@@ -1,0 +1,9 @@
+- 什么是MQTT:
+    - https://blog.csdn.net/Teminator_/article/details/142177223
+    - https://blog.csdn.net/black_pp/article/details/132106773?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ECtr-1-132106773-blog-142177223.235%5Ev43%5Epc_blog_bottom_relevance_base3&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ECtr-1-132106773-blog-142177223.235%5Ev43%5Epc_blog_bottom_relevance_base3&utm_relevant_index=2
+    - https://blog.csdn.net/zhouwu_linux/article/details/132407033
+    - https://blog.csdn.net/lpcarl/article/details/121064213
+    - https://blog.csdn.net/qq_38113006/article/details/105665658
+    - https://blog.csdn.net/weixin_42042544/article/details/142516846
+- mosquitto库接口：
+    - https://mosquitto.org/api/files/mosquitto-h.html
