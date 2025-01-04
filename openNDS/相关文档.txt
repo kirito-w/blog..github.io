@@ -1,0 +1,38 @@
+opennds:
+https://github.com/openNDS/openNDS
+https://notes.maxfa.ng/Dev/Networking/OpenNDS/OpenNDS
+https://opennds.readthedocs.io/en/stable/config.html
+https://opennds.readthedocs.io/en/stable/ndsctl.html
+https://openwrt.org/docs/guide-user/services/captive-portal/opennds
+
+自定义登陆页面相关：
+https://github.com/openNDS/openNDS/issues/243
+随机mac相关：
+https://github.com/openNDS/openNDS/issues/375
+
+跳转页面：
+使用opennds_config和redirect文件
+
+不拦截的域名和端口：
+list walledgarden_fqdn_list 'example.com'                                    
+list walledgarden_port_list '443'  
+
+命令行认证方式：(放行60分钟)
+ndsctl auth b2:63:2f:b2:af:e2 60
+
+取消认证：
+ndsctl deauth b2:63:2f:b2:af:e2
+
+抢占登陆认证：（用以解决未连接的设备通过ndsctl auth 认证）
+https://github.com/openNDS/openNDS/issues/315
+
+自定义认证接口：
+https://opennds.readthedocs.io/en/stable/binauth.html
+
+- 超时下线回调：timeout_deauth
+
+非认证状态下放行用户管理页面：
+
+
+默认放行的设备：
+trusted mac
