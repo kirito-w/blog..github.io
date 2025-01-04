@@ -416,3 +416,12 @@ git push origin master
   - 大致意思是关闭文件保护之类的，然后切换为刚刚的分支，如
 - git checkout main
   - 然后文件夹就正常咯
+
+
+## 使用https拉取代码每次都要输入用户名密码的解决方式：
+- git config --global credential.helper store    开启凭证助手 只需在首次拉取时输入密码，后续不再需要输入
+
+
+## 合并代码养成好习惯：
+- 1、先从主分支rebase，改完代码以后
+- 2、再在主分支上merge自己的分支（feature-branch）

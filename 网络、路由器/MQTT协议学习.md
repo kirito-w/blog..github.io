@@ -7,3 +7,38 @@
     - https://blog.csdn.net/weixin_42042544/article/details/142516846
 - mosquitto库接口：
     - https://mosquitto.org/api/files/mosquitto-h.html
+
+
+- mosquitto库使用遇到的问题：
+    - 断连后loop_stop的问题：https://www.cnblogs.com/zxq89/p/18266852
+    - 常用方法：
+        - https://shaocheng.li/posts/2015/08/11/
+        - https://blog.csdn.net/weixin_45880057/article/details/124487132
+
+- mosquitto库保持连接的方法： https://www.cnblogs.com/zhaogaojian/p/16852915.html
+
+## 使用主线程时：
+```
+mosquitto_loop_forever()   //阻塞运行
+```
+
+## 使用多线程时：
+```
+启动一个线程处理mqtt网络事件
+
+while(1) {
+    int rc = mosquitto_loop(client.mosq, -1, 1);
+
+    if (rc)
+        {
+            //如果网络出现异常，尝试重连
+            log_debug("[MQTT] mosquitto_loop rc = %d \n", rc);
+            mosquitto_reconnect(client.mosq);
+            log_debug("[MQTT] ======= mosquitto reconnecting =======\n");
+        }
+}
+```
+或者
+```
+mosquitto_loop_start()    //非阻塞，启动新线程
+```

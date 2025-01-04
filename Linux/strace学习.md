@@ -18,3 +18,5 @@ strace -tt -T -v -f -e trace=file -o /tmp/log/strace.log -s 1024 -p 23489
 -s 当系统调用的某个参数是字符串时，最多输出指定长度的内容，默认是32个字节
 -p 指定要跟踪的进程pid, 要同时跟踪多个pid, 重复多次-p选项即可。
 ```
+
+# strace -f -t -p pid —— 跟踪线程的所有调用(显示线程pid) 
