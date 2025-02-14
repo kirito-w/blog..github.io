@@ -586,7 +586,7 @@ cc1: fatal error: /root/wqj/AC_2210E/x-wrt/build_dir/target-aarch64_cortex-a53_m
   - https://www.cnblogs.com/senior-engineer/p/9335795.html
   - https://blog.csdn.net/mantis_1984/article/details/53571758
 
-## op 论坛：
+## openwrt 论坛：
 
 - https://forum.openwrt.org/latest
 - https://github.com/ntop/n2n/labels/question

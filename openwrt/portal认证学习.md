@@ -33,6 +33,7 @@
 
 ## 如何实现终端上自动弹出Portal认证页面(http自动探测):
 - 自动弹出Portal认证页面实现原理：终端`关联到SSID`后，主动发出HTTP的`探测请求`报文，`检测目的地址是否可达`，以及`回应的内容是否符合预期`，以此来`判断接入的网络是否需要进行Portal认证`。目的地址一般是固定的网址，各终端或APP应用存在差异。如果`目的地址不可达`或`回应内容不符合预期`，那么终端会调用浏览器`再次发出HTTP请求`，设备拦截到此请求`进行重定向`，实现自动弹出Portal认证页面的功能。
+- `所有的网络探测，基本都是以dns请求的形式，只不过请求的域名不同，比如IOS设备是captive.apple.com，Windows是微软的地址`
 
 ## 访问HTTPS网页报安全告警的原因（正常现象）
 - 从Portal重定向原理可知，终端访问HTTPS网页时，`设备拦截HTTPS（默认443端口）TCP固定端口的流量`，`仿冒`成终端`要访问的目的地址`和终端`建立TCP连接`，TCP建链完成后`进行SSL握手`，SSL握手`使用的是设备内置的自签名证书`，设备内置自签名证书并`不是合法机构颁发的证书`，因此**`能否重定向成功取决于终端浏览器的安全策略`**，部分终端浏览器校验服务器证书时会产生告警，点击信任继续后，可以正常重定向到Portal页面。也有部分浏览器没有该提示页面，直接中断访问。
@@ -59,3 +60,13 @@
 - https://cxd2014.github.io/2017/05/21/portal-auth/
 - https://cshihong.github.io/2019/05/30/Portal%E8%AE%A4%E8%AF%81%E5%8E%9F%E7%90%86/
 - https://support.huawei.com/enterprise/zh/doc/EDOC1000075592/6db5c7cf
+https://blog.csdn.net/limengshi138392/article/details/139372365
+
+# 不同终端的认证行为：
+- https://captivebehavior.wballiance.com/
+
+# ios终端认证行为：
+- https://gmd20.github.io/blog/iPhone%E8%BF%9E%E6%8E%A5wifi%E7%83%AD%E7%82%B9%E8%B7%B3%E8%BD%ACcaptive-portal%E9%A1%B5%E9%9D%A2%E5%8E%9F%E7%90%86%E4%BB%A5%E5%8F%8A%E9%A1%B5%E9%9D%A2%E8%B7%B3%E8%BD%AC%E6%85%A2%E5%8E%9F%E5%9B%A0%E5%88%86%E6%9E%90/
+
+# DHCP 114 option
+- https://developer.android.com/about/versions/11/features/captive-portal?hl=zh-cn

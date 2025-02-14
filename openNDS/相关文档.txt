@@ -4,6 +4,7 @@ https://notes.maxfa.ng/Dev/Networking/OpenNDS/OpenNDS
 https://opennds.readthedocs.io/en/stable/config.html
 https://opennds.readthedocs.io/en/stable/ndsctl.html
 https://openwrt.org/docs/guide-user/services/captive-portal/opennds
+https://blog.csdn.net/gitblog_01065/article/details/142009423
 
 自定义登陆页面相关：
 https://github.com/openNDS/openNDS/issues/243
@@ -13,7 +14,7 @@ https://github.com/openNDS/openNDS/issues/375
 跳转页面：
 使用opennds_config和redirect文件
 
-不拦截的域名和端口：
+不拦截的域名和端口(不能放行80)：
 list walledgarden_fqdn_list 'example.com'                                    
 list walledgarden_port_list '443'  
 
@@ -35,4 +36,4 @@ https://opennds.readthedocs.io/en/stable/binauth.html
 
 
 默认放行的设备：
-trusted mac
+list trustedmac 'c8:a3:62:2d:31:05'

@@ -351,8 +351,8 @@ git push origin master
 
 ## 解决 cherr-pick 遇到冲突的问题：
 
-- 原因：这种时候一般是要 cherry-pick 的分支里，某些文件与当前分支的文件差异过大导致的
-- 解决方法：可以切换到要 cherry-pick 的分支下，git log -p xxxx 追溯此文件，找到与当前分支一致的提交节点，然后从此节点开始，将之后的所有提交按顺序 cherry-pick 即可
+- 原因：这种时候一般是要 cherry-pick 的分支里，`某些文件与当前分支的文件差异过大导致的`
+- 解决方法：可以切换到要 cherry-pick 的分支下，`git log -p xxxx 追溯此文件`，找到与当前分支一致的提交节点，然后从此节点开始，将之后的所有提交按顺序 cherry-pick 即可
 
 ## git pull 由于远程追踪未设置导致失败：
 
@@ -425,3 +425,7 @@ git push origin master
 ## 合并代码养成好习惯：
 - 1、先从主分支rebase，改完代码以后
 - 2、再在主分支上merge自己的分支（feature-branch）
+
+## 比较两个分支的提交差异：
+- git log --left-right origin/release...origin/release-jd
+

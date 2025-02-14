@@ -1073,3 +1073,6 @@ echo xxx | awk -F 'Noise level=' '{print $2}' | awk '{print $1}'
 - https://kysonlok.gitbook.io/blog/shell/awk
 - https://www.geeksforgeeks.org/awk-command-unixlinux-examples/
 - https://www.gnu.org/software/gawk/manual/gawk.html（官方手册）
+
+
+## 使用$()执行指令并且赋值时，需要注意返回值中如果带有 : 字符时，需要在$()外层加双引号！
